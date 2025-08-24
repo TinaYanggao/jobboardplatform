@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobEntry - Find Jobs & Hire Talent</title>
+<style>
+:root {
+    --primary-blue: #032D84;
+    --accent-orange: #F7AB52;
+    --white: #FFFFFF;
+    --light-gray: #f5f5f5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--white);
+    color: var(--primary-blue);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Header */
+header {
+    background-color: var(--white);
+    padding: 1rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header h1 {
+    font-size: 2rem;
+    color: var(--primary-blue);
+    font-weight: bold;
+}
+
+nav a {
+    margin-left: 2rem;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--accent-orange);
+}
+
+.auth-buttons button {
+    background-color: var(--accent-orange);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    margin-left: 0.8rem;
+}
+
+.auth-buttons button:hover {
+    background-color: #e69947;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 2rem;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    text-align: center;
+}
+
+.hero h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.hero-buttons button {
+    padding: 0.9rem 2.2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-job {
+    background-color: var(--white);
+    color: var(--primary-blue);
+}
+
+.btn-job:hover {
+    background-color: #eaeaea;
+}
+
+.btn-hire {
+    background-color: var(--accent-orange);
+    color: var(--white);
+}
+
+.btn-hire:hover {
+    background-color: #e69947;
+}
+
+/* Job Listings Section */
+.section-title {
+    text-align: center;
+    margin: 4rem 0 2rem 0;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-blue);
+}
+
+.job-listings {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 0 3rem 4rem 3rem;
+}
+
+.job-card {
+    background-color: var(--white);
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.job-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.job-card p {
+    font-size: 0.95rem;
+    margin-bottom: 1.2rem;
+    color: #555;
+}
+
+.job-card button {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.job-card button:hover {
+    background-color: #021a5e;
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+/* Modals */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 200; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+    background-color: var(--white);
+    margin: 8% auto;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.modal-content h2 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-blue);
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #888;
+}
+
+.close:hover {
+    color: var(--accent-orange);
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="password"] {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.modal-content button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-content button:hover {
+    background-color: #021a5e;
+}
+
+.modal-footer {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.modal-footer a {
+    color: var(--accent-orange);
+    cursor: pointer;
+    margin-left: 0.3rem;
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <h1>JobEntry</h1>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Jobs</a>
+        <a href="#">Hire</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+    <div class="auth-buttons">
+        <button id="loginBtn">Login</button>
+        <button id="signupBtn">Sign Up</button>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <h2>Connecting Talent with Opportunity</h2>
+    <p>Whether you're searching for your dream job or looking for the perfect employee, JobEntry makes it easy to connect, hire, and grow.</p>
+    <div class="hero-buttons">
+        <button class="btn-job">Find Jobs</button>
+        <button class="btn-hire">Hire Employees</button>
+    </div>
+</section>
+
+<!-- Job Listings -->
+<h2 class="section-title">Latest Job Opportunities</h2>
+<section class="job-listings">
+    <div class="job-card">
+        <h3>Frontend Developer</h3>
+        <p>Company: TechCorp | Location: Manila, Philippines</p>
+        <p>Requirements: HTML, CSS, JavaScript, React</p>
+        <button>Apply Now</button>
+    </div>
+    <div class="job-card">
+        <h3>Backend Developer</h3>
+        <p>Company: SoftSolutions | Location: Cebu, Philippines</p>
+        <p>Requirements: Node.js, Express, SQL, API Integration</p>
+        <button>Apply Now</button>
+    </div>
+    <div class="job-card">
+        <h3>UI/UX Designer</h3>
+        <p>Company: CreativeHub | Location: Davao, Philippines</p>
+        <p>Requirements: Figma, Adobe XD, User Research, Prototyping</p>
+        <button>Apply Now</button>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    &copy; 2025 JobEntry. All Rights Reserved.
+</footer>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeLogin">&times;</span>
+        <h2>Login</h2>
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button id="loginSubmit">Sign In</button>
+        <div class="modal-footer">
+            Don't have an account? <a id="toSignup">Sign Up</a>
+        </div>
+    </div>
+</div>
+
+<!-- Sign Up Modal -->
+<div id="signupModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeSignup">&times;</span>
+        <h2>Sign Up</h2>
+        <input type="text" id="signupName" placeholder="Full Name" required>
+        <input type="email" id="signupEmail" placeholder="Email" required>
+        <input type="password" id="signupPassword" placeholder="Password" required>
+        <button id="signupSubmit">Create Account</button>
+        <div class="modal-footer">
+            Already have an account? <a id="toLogin">Login</a>
+        </div>
+    </div>
+</div>
+
+<script>
+const loginModal = document.getElementById("loginModal");
+const signupModal = document.getElementById("signupModal");
+const loginBtn = document.getElementById("loginBtn");
+const signupBtn = document.getElementById("signupBtn");
+const closeLogin = document.getElementById("closeLogin");
+const closeSignup = document.getElementById("closeSignup");
+const toSignup = document.getElementById("toSignup");
+const toLogin = document.getElementById("toLogin");
+const loginSubmit = document.getElementById("loginSubmit");
+const signupSubmit = document.getElementById("signupSubmit");
+
+// Open modals
+loginBtn.onclick = () => loginModal.style.display = "block";
+signupBtn.onclick = () => signupModal.style.display = "block";
+
+// Close modals
+closeLogin.onclick = () => loginModal.style.display = "none";
+closeSignup.onclick = () => signupModal.style.display = "none";
+
+// Switch modals
+toSignup.onclick = () => { loginModal.style.display="none"; signupModal.style.display="block"; }
+toLogin.onclick = () => { signupModal.style.display="none"; loginModal.style.display="block"; }
+
+// Redirect to dashboard on submit
+loginSubmit.onclick = () => { window.location.href = "dashboard.html"; }
+signupSubmit.onclick = () => { window.location.href = "dashboard.html"; }
+
+// Close modal on outside click
+window.onclick = function(event){
+    if(event.target==loginModal) loginModal.style.display="none";
+    if(event.target==signupModal) signupModal.style.display="none";
+}
+</script>
+
+</body>
+</html>

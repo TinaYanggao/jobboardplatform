@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobEntry Dashboard</title>
+<style>
+:root {
+    --primary-blue: #032D84;
+    --accent-orange: #F7AB52;
+    --white: #FFFFFF;
+    --light-gray: #f5f5f5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--light-gray);
+    color: var(--primary-blue);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background-color: var(--primary-blue);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1rem;
+    color: var(--white);
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.sidebar a {
+    color: var(--white);
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    display: block;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background-color: var(--accent-orange);
+    color: var(--white);
+}
+
+/* Main content */
+.main-content {
+    margin-left: 220px;
+    padding: 2rem 3rem;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.navbar h1 {
+    color: var(--primary-blue);
+}
+
+.navbar button {
+    background-color: var(--accent-orange);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.navbar button:hover {
+    background-color: #e69947;
+}
+
+/* Dashboard Welcome Card */
+.dashboard-welcome {
+    background: linear-gradient(135deg, #032D84, #021a5e);
+    color: #FFFFFF;
+    padding: 2.5rem;
+    border-radius: 16px;
+    text-align: center;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.dashboard-welcome h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.dashboard-welcome p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+}
+
+.welcome-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.welcome-buttons button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-explore {
+    background-color: #F7AB52;
+    color: #032D84;
+}
+
+.btn-explore:hover {
+    background-color: #e69947;
+}
+
+.btn-hire {
+    background-color: #FFFFFF;
+    color: #032D84;
+    border: 2px solid #032D84;
+}
+
+.btn-hire:hover {
+    background-color: #f0f0f0;
+}
+
+/* Sections */
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+/* Job/Hire Cards */
+.job-listings {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.job-card {
+    background-color: var(--white);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.job-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.job-card p {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.job-card .badge {
+    display: inline-block;
+    background-color: var(--accent-orange);
+    color: var(--white);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.job-card button {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.job-card button:hover {
+    background-color: #021a5e;
+}
+
+/* Profile */
+.profile-section {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.profile-section h3 {
+    margin-bottom: 1rem;
+}
+
+.profile-section input, 
+.profile-section textarea {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.profile-section button {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.profile-section button:hover {
+    background-color: #021a5e;
+}
+
+.experience-card {
+    background-color: #f8f8f8;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px){
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+    .sidebar h2 { display: none; }
+    .main-content { margin-left: 0; padding: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>JobEntry</h2>
+    <a href="#" onclick="showSection('dashboard')">Dashboard</a>
+    <a href="#" onclick="showSection('findJobs')">Find Jobs</a>
+    <a href="#" onclick="showSection('hireEmployees')">Hire Employees</a>
+    <a href="#" onclick="showSection('profile')">Profile</a>
+    <a href="#" onclick="signOut()">Sign Out</a>
+</div>
+
+<div class="main-content">
+    <div class="navbar">
+        <h1>JobEntry</h1>
+        <button onclick="signOut()">Sign Out</button>
+    </div>
+
+    <!-- Dashboard Welcome Card -->
+    <div class="dashboard-welcome">
+        <h2>Welcome back, Jane!</h2>
+        <p>Discover jobs, connect with top companies, and explore talent opportunities.</p>
+        <div class="welcome-buttons">
+            <button class="btn-explore" onclick="showSection('findJobs')">Explore Jobs</button>
+            <button class="btn-hire" onclick="showSection('hireEmployees')">Hire Talent</button>
+        </div>
+    </div>
+
+    <div id="sections-container">
+        <!-- Find Jobs -->
+        <div id="findJobs" class="section">
+            <h2>Available Jobs</h2>
+            <div class="job-listings">
+                <div class="job-card">
+                    <span class="badge">Full-time</span>
+                    <h3>Frontend Developer</h3>
+                    <p>Company: TechCorp | Location: Manila</p>
+                    <p>Requirements: HTML, CSS, JS, React</p>
+                    <button>Apply Now</button>
+                </div>
+                <div class="job-card">
+                    <span class="badge">Remote</span>
+                    <h3>Backend Developer</h3>
+                    <p>Company: SoftSolutions | Location: Cebu</p>
+                    <p>Requirements: Node.js, Express, SQL</p>
+                    <button>Apply Now</button>
+                </div>
+                <div class="job-card">
+                    <span class="badge">Part-time</span>
+                    <h3>UI/UX Designer</h3>
+                    <p>Company: CreativeHub | Location: Davao</p>
+                    <p>Requirements: Figma, Adobe XD, Prototyping</p>
+                    <button>Apply Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hire Employees -->
+        <div id="hireEmployees" class="section">
+            <h2>Top Talent</h2>
+            <div class="job-listings">
+                <div class="job-card">
+                    <span class="badge">Full-time</span>
+                    <h3>John Doe</h3>
+                    <p>Skills: React, Node.js, SQL</p>
+                    <button>Contact</button>
+                </div>
+                <div class="job-card">
+                    <span class="badge">Remote</span>
+                    <h3>Jane Smith</h3>
+                    <p>Skills: UX/UI, Figma, Prototyping</p>
+                    <button>Contact</button>
+                </div>
+                <div class="job-card">
+                    <span class="badge">Part-time</span>
+                    <h3>Mike Johnson</h3>
+                    <p>Skills: Python, Django, REST API</p>
+                    <button>Contact</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile -->
+        <div id="profile" class="section">
+            <h2>Your Profile</h2>
+            <div class="profile-section">
+                <h3>Personal Info</h3>
+                <input type="text" placeholder="Full Name" value="Jane Doe">
+                <input type="email" placeholder="Email" value="jane@example.com">
+                <textarea rows="4" placeholder="About Me">I am a passionate developer seeking exciting opportunities.</textarea>
+
+                <h3>Work Experience</h3>
+                <div class="experience-card">
+                    <input type="text" placeholder="Job Title" value="Frontend Developer">
+                    <input type="text" placeholder="Company" value="TechCorp">
+                    <input type="text" placeholder="Duration" value="2022-2024">
+                </div>
+                <div class="experience-card">
+                    <input type="text" placeholder="Job Title" value="Intern Designer">
+                    <input type="text" placeholder="Company" value="CreativeHub">
+                    <input type="text" placeholder="Duration" value="2021-2022">
+                </div>
+
+                <button>Save Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showSection(sectionId){
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(sec => sec.classList.remove('active'));
+    document.getElementById(sectionId).classList.add('active');
+}
+
+// Sign out function
+function signOut() {
+    window.location.href = "index.html";
+}
+
+// Default: show dashboard welcome
+document.getElementById('sections-container').style.display = "block";
+</script>
+
+</body>
+</html>
